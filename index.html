@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Old Skool Iron — Be Part of the Legend</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --black: #0a0a0a;
@@ -290,6 +290,32 @@
   .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease,transform 0.6s ease; }
   .fade-up.visible { opacity:1; transform:translateY(0); }
 
+  /* ===== SECTION NUMBER TAGS ===== */
+  .section-num {
+    font-family:'Space Mono',monospace; font-size:12px; font-weight:700;
+    letter-spacing:2px; color:var(--rust); display:block; margin-bottom:10px;
+    text-transform:uppercase; opacity:0.9;
+  }
+  .section-num .slash { opacity:0.5; }
+
+  /* ===== STAGGERED REVEAL =====
+     Uses the independent `translate` property (not `transform`) so it composes
+     with the existing hover / featured-card transforms instead of overriding them. */
+  .reveal-item { opacity:0; translate:0 28px; transition:opacity 0.7s cubic-bezier(.2,.7,.2,1), translate 0.7s cubic-bezier(.2,.7,.2,1); }
+  .reveal-item.visible { opacity:1; translate:0 0; }
+
+  /* ===== CURSOR GLOW ===== */
+  .cursor-glow {
+    position:fixed; top:0; left:0; width:420px; height:420px; border-radius:50%;
+    pointer-events:none; z-index:9999; margin:-210px 0 0 -210px;
+    background:radial-gradient(circle, rgba(192,57,43,0.13) 0%, rgba(192,57,43,0.05) 32%, transparent 66%);
+    opacity:0; mix-blend-mode:screen; will-change:transform;
+    transition:opacity 0.4s ease, width 0.3s ease, height 0.3s ease, margin 0.3s ease;
+  }
+  .cursor-glow.active { opacity:1; }
+  .cursor-glow.hover { width:620px; height:620px; margin:-310px 0 0 -310px; }
+  @media (hover:none), (pointer:coarse), (max-width:768px) { .cursor-glow { display:none !important; } }
+
   /* ===== SCROLLBAR ===== */
   ::-webkit-scrollbar { width:3px; }
   ::-webkit-scrollbar-track { background:var(--black); }
@@ -373,6 +399,9 @@
 </head>
 <body>
 
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">OLD SKOOL <span>IRON</span></a>
@@ -445,6 +474,7 @@
       <div class="about-image-accent"><span>THE<br>LEGEND</span></div>
     </div>
     <div class="about-text">
+      <span class="section-num"><span class="slash">//</span> 01</span>
       <div class="section-label">Our Story</div>
       <h2 class="section-title">WHERE IRON<br>BECOMES<br>LEGEND</h2>
       <p>Old Skool Iron isn't just a gym — it's a <strong>movement</strong>. We're for the lifters who remember when training was raw, real, and results-driven. No machines that think for you. Just iron, sweat, and the pursuit of strength.</p>
@@ -466,10 +496,11 @@
 <!-- MEMBERSHIP -->
 <div class="membership-section" id="membership">
   <div class="membership-inner">
+    <span class="section-num fade-up"><span class="slash">//</span> 02</span>
     <div class="section-label fade-up">Memberships</div>
     <h2 class="section-title fade-up">CHOOSE YOUR<br>LEGEND</h2>
-    <div class="plans-grid fade-up">
-      <div class="plan-card">
+    <div class="plans-grid stagger-group">
+      <div class="plan-card reveal-item">
         <div class="plan-name">Basic</div>
         <div class="plan-price"><span class="dollar">$</span><span class="amount">39</span><span class="period">/ month</span></div>
         <ul class="plan-features">
@@ -481,7 +512,7 @@
         </ul>
         <a href="#signup" class="btn-plan btn-plan-outline">Get Started</a>
       </div>
-      <div class="plan-card featured">
+      <div class="plan-card featured reveal-item">
         <div class="plan-badge">Most Popular</div>
         <div class="plan-name">Legend</div>
         <div class="plan-price"><span class="dollar">$</span><span class="amount">69</span><span class="period">/ month</span></div>
@@ -495,7 +526,7 @@
         </ul>
         <a href="#signup" class="btn-plan btn-plan-solid">Join the Legend</a>
       </div>
-      <div class="plan-card">
+      <div class="plan-card reveal-item">
         <div class="plan-name">Elite</div>
         <div class="plan-price"><span class="dollar">$</span><span class="amount">99</span><span class="period">/ month</span></div>
         <ul class="plan-features">
@@ -514,28 +545,29 @@
 
 <!-- SCHEDULE -->
 <section id="schedule">
+  <span class="section-num fade-up"><span class="slash">//</span> 03</span>
   <div class="section-label fade-up">Weekly Schedule</div>
   <h2 class="section-title fade-up">TRAIN LIKE<br>A LEGEND</h2>
-  <div class="schedule-grid fade-up">
-    <div class="schedule-day">
+  <div class="schedule-grid stagger-group">
+    <div class="schedule-day reveal-item">
       <div class="schedule-day-name">Monday</div>
       <div class="schedule-class"><div class="class-time">6:00 AM</div><div class="class-name">Power Hour</div><div class="class-trainer">Coach D</div></div>
       <div class="schedule-class"><div class="class-time">12:00 PM</div><div class="class-name">Strength Basics</div><div class="class-trainer">Open</div></div>
       <div class="schedule-class"><div class="class-time">6:00 PM</div><div class="class-name">Iron Circuit</div><div class="class-trainer">Coach D</div></div>
     </div>
-    <div class="schedule-day">
+    <div class="schedule-day reveal-item">
       <div class="schedule-day-name">Wednesday</div>
       <div class="schedule-class"><div class="class-time">6:00 AM</div><div class="class-name">Cardio Burn</div><div class="class-trainer">Coach D</div></div>
       <div class="schedule-class"><div class="class-time">12:00 PM</div><div class="class-name">Open Lifting</div><div class="class-trainer">Open Floor</div></div>
       <div class="schedule-class"><div class="class-time">6:00 PM</div><div class="class-name">Old Skool HIIT</div><div class="class-trainer">Coach D</div></div>
     </div>
-    <div class="schedule-day">
+    <div class="schedule-day reveal-item">
       <div class="schedule-day-name">Friday</div>
       <div class="schedule-class"><div class="class-time">6:00 AM</div><div class="class-name">Deadlift Club</div><div class="class-trainer">Coach D</div></div>
       <div class="schedule-class"><div class="class-time">12:00 PM</div><div class="class-name">Open Floor</div><div class="class-trainer">Open</div></div>
       <div class="schedule-class"><div class="class-time">5:00 PM</div><div class="class-name">Legend Friday</div><div class="class-trainer">All Members</div></div>
     </div>
-    <div class="schedule-day">
+    <div class="schedule-day reveal-item">
       <div class="schedule-day-name">Saturday</div>
       <div class="schedule-class"><div class="class-time">8:00 AM</div><div class="class-name">Weekend Warrior</div><div class="class-trainer">Coach D</div></div>
       <div class="schedule-class"><div class="class-time">10:00 AM</div><div class="class-name">Couples Lift</div><div class="class-trainer">Open</div></div>
@@ -546,14 +578,15 @@
 
 <!-- GALLERY -->
 <section id="gallery" style="padding-top:0;">
+  <span class="section-num fade-up"><span class="slash">//</span> 04</span>
   <div class="section-label fade-up">The Iron House</div>
   <h2 class="section-title fade-up">SEE THE<br>LEGEND</h2>
-  <div class="gallery-grid fade-up">
-    <div class="gallery-item"><div class="gallery-placeholder"><span class="icon">🏋️</span><span>Main Floor</span></div></div>
-    <div class="gallery-item"><div class="gallery-placeholder"><span class="icon">💪</span><span>Free Weights</span></div></div>
-    <div class="gallery-item"><div class="gallery-placeholder"><span class="icon">🔥</span><span>Cardio Area</span></div></div>
-    <div class="gallery-item"><div class="gallery-placeholder"><span class="icon">⚡</span><span>Power Racks</span></div></div>
-    <div class="gallery-item"><div class="gallery-placeholder"><span class="icon">🏆</span><span>Members Wall</span></div></div>
+  <div class="gallery-grid stagger-group">
+    <div class="gallery-item reveal-item"><div class="gallery-placeholder"><span class="icon">🏋️</span><span>Main Floor</span></div></div>
+    <div class="gallery-item reveal-item"><div class="gallery-placeholder"><span class="icon">💪</span><span>Free Weights</span></div></div>
+    <div class="gallery-item reveal-item"><div class="gallery-placeholder"><span class="icon">🔥</span><span>Cardio Area</span></div></div>
+    <div class="gallery-item reveal-item"><div class="gallery-placeholder"><span class="icon">⚡</span><span>Power Racks</span></div></div>
+    <div class="gallery-item reveal-item"><div class="gallery-placeholder"><span class="icon">🏆</span><span>Members Wall</span></div></div>
   </div>
 </section>
 
@@ -561,6 +594,7 @@
 <div class="signup-section" id="signup">
   <div class="signup-inner">
     <div class="signup-info fade-up">
+      <span class="section-num"><span class="slash">//</span> 05</span>
       <div class="section-label">Join Today</div>
       <h3>BECOME PART<br>OF THE<br>LEGEND</h3>
       <p>Fill out the form and we'll get you set up with the right membership. No contracts, no BS — just iron and results.</p>
@@ -693,10 +727,43 @@
   // FADE IN ON SCROLL
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
-      if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 80); observer.unobserve(entry.target); }
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // STAGGERED CARD REVEALS
+  const staggerObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.reveal-item').forEach((el, i) => {
+          setTimeout(() => el.classList.add('visible'), i * 110);
+        });
+        staggerObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.stagger-group').forEach(g => staggerObs.observe(g));
+
+  // CURSOR GLOW (desktop pointer only)
+  const glow = document.getElementById('cursorGlow');
+  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    let gx = 0, gy = 0, cx = 0, cy = 0, active = false;
+    window.addEventListener('mousemove', e => {
+      gx = e.clientX; gy = e.clientY;
+      if (!active) { active = true; glow.classList.add('active'); }
+    });
+    window.addEventListener('mouseout', e => { if (!e.relatedTarget) glow.classList.remove('active'); });
+    (function loop() {
+      cx += (gx - cx) * 0.18; cy += (gy - cy) * 0.18;
+      glow.style.transform = `translate(${cx}px, ${cy}px)`;
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button, .plan-card, .schedule-day, .gallery-item, .form-input, .form-select').forEach(el => {
+      el.addEventListener('mouseenter', () => glow.classList.add('hover'));
+      el.addEventListener('mouseleave', () => glow.classList.remove('hover'));
+    });
+  }
 
   // SMOOTH SCROLL
   document.querySelectorAll('a[href^="#"]').forEach(a => {
