@@ -745,6 +745,26 @@
   }, { threshold: 0.15 });
   document.querySelectorAll('.stagger-group').forEach(g => staggerObs.observe(g));
 
+  // COUNT-UP STATS
+  const animateCount = (el) => {
+    const m = el.textContent.trim().match(/^(\d+)(.*)$/);
+    if (!m) return;
+    const target = parseInt(m[1], 10), suffix = m[2], dur = 1500, start = performance.now();
+    const step = (now) => {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target) + suffix;
+      if (p < 1) requestAnimationFrame(step); else el.textContent = target + suffix;
+    };
+    requestAnimationFrame(step);
+  };
+  const statObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { animateCount(entry.target); statObs.unobserve(entry.target); }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.stat-number').forEach(el => statObs.observe(el));
+
   // CURSOR GLOW (desktop pointer only)
   const glow = document.getElementById('cursorGlow');
   if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
